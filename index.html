@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CrisisMMD++ Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14213d;--mut:#64748b;--line:#e2e8f0;--bg:#f1f5f9;--card:#fff;--a:#2563eb;--a2:#dbeafe;--b:#7c3aed;--b2:#ede9fe;--bad:#e11d48;--bad2:#fff1f2;--ok:#059669;--ok2:#ecfdf5}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+button{font-family:inherit;cursor:pointer}
+.hero{background:linear-gradient(120deg,#0b1d3a 0%,#123e6b 45%,#0f766e 100%);color:#fff;padding:28px 48px 72px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-90px;top:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,.35),transparent 65%);pointer-events:none}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px;opacity:.92}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#fb923c,#f43f5e);display:grid;place-items:center;font-size:17px}
+h1{font-size:32px;margin:16px 0 6px;font-weight:800;letter-spacing:-.5px}
+.auth{font-size:14px;opacity:.85}
+.intro{max-width:780px;font-size:15px;line-height:1.55;opacity:.95;margin-top:10px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:99px;font-size:12.5px}
+.wrap{max-width:1180px;margin:-48px auto 40px;padding:0 20px;position:relative;z-index:2}
+.prog{background:#fff;border-radius:16px;padding:14px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 6px 24px rgba(15,23,42,.08);flex-wrap:wrap}
+.prog b{font-size:14px;white-space:nowrap}
+.bar{flex:1;min-width:140px;height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#0ea5e9,#22c55e);transition:width .6s}
+.pct{font-weight:800;font-size:15px;color:#0f766e}
+.who{font-size:13px;color:var(--mut);white-space:nowrap}
+.card{background:var(--card);border-radius:18px;box-shadow:0 6px 24px rgba(15,23,42,.07);padding:20px}
+.grid{display:grid;grid-template-columns:400px 1fr;gap:22px;margin-top:20px;align-items:start}
+.post{position:sticky;top:16px}
+.post .hd{display:flex;gap:10px;align-items:center}
+.av{width:40px;height:40px;border-radius:50%;background:#cbd5e1;display:grid;place-items:center;font-weight:700;color:#475569}
+.post small{color:var(--mut)}
+.tw{font-size:15.5px;line-height:1.5;margin:14px 0;word-wrap:break-word}
+.imgbox{border-radius:14px;overflow:hidden;background:#e2e8f0;min-height:220px;display:grid;place-items:center;color:var(--mut);font-size:13px}
+.imgbox img{width:100%;display:block}
+.ev{display:inline-flex;gap:6px;align-items:center;background:#fff7ed;color:#c2410c;font-size:12px;font-weight:600;padding:5px 10px;border-radius:99px;margin-top:14px}
+.iid{float:right;font-size:11px;color:#94a3b8;margin-top:20px}
+.q{margin-bottom:16px}
+.qh{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.num{width:28px;height:28px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;display:grid;place-items:center;font-size:13px;flex:none}
+.q.done .num{background:var(--ok)}
+.qh h3{margin:0;font-size:16px}
+.qh em{margin-left:auto;font-style:normal;font-size:12px;color:var(--mut);white-space:nowrap}
+.same{background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:12.5px;padding:8px 12px;border-radius:10px;margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr 170px;gap:10px}
+.opt{border:2px solid var(--line);border-radius:14px;padding:12px 40px 12px 14px;font-size:14px;font-weight:600;position:relative;background:#fff;text-align:left;color:var(--ink);transition:transform .08s,border-color .15s}
+.opt:hover{transform:translateY(-1px);border-color:#cbd5e1}
+.opt .t{font-size:11px;font-weight:700;letter-spacing:.8px;color:var(--mut);display:block;margin-bottom:4px}
+.opt.A .t{color:var(--a)}.opt.B .t{color:var(--b)}
+.opt.sel.A{border-color:var(--a);background:var(--a2)}
+.opt.sel.B{border-color:var(--b);background:var(--b2)}
+.opt.bad{text-align:center;color:var(--bad);border-style:dashed;border-color:#fda4af;display:grid;place-items:center}
+.opt.sel.bad{background:var(--bad2);border-style:solid;border-color:var(--bad)}
+.opt.sel:after{content:"✓";position:absolute;right:10px;top:10px;width:22px;height:22px;border-radius:50%;background:var(--a);color:#fff;font-size:13px;display:grid;place-items:center}
+.opt.sel.B:after{background:var(--b)}.opt.sel.bad:after{background:var(--bad)}
+.chips{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chips .lb{font-size:11.5px;color:var(--mut);margin-right:4px}
+.chip{font-size:11.5px;padding:4px 9px;border-radius:99px;background:#f1f5f9;color:#94a3b8}
+.chip.ca{background:var(--a2);color:var(--a);font-weight:600}
+.chip.cb{background:var(--b2);color:var(--b);font-weight:600}
+.chip.cab{background:linear-gradient(90deg,var(--a2),var(--b2));color:#4338ca;font-weight:600}
+.rel{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.r{border:2px solid var(--line);border-radius:14px;padding:12px;font-size:13.5px;background:#fff;text-align:left;color:var(--ink)}
+.r b{display:block;margin-bottom:3px}.r span{font-size:12px;color:var(--mut);line-height:1.35}
+.r.sel{border-color:var(--ok);background:var(--ok2)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px;flex-wrap:wrap}
+.btn{padding:13px 22px;border-radius:12px;font-weight:700;font-size:14.5px;border:0}
+.end{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.nxt{background:linear-gradient(90deg,#f97316,#e11d48);color:#fff;box-shadow:0 8px 20px rgba(225,29,72,.28)}
+.nxt:disabled{background:#cbd5e1;box-shadow:none;cursor:not-allowed}
+.note{font-size:12.5px;color:var(--mut);text-align:center;flex:1}
+.note.warn{color:var(--bad);font-weight:600}
+.center{max-width:620px;margin:20px auto 0;text-align:center;padding:34px}
+.center h2{margin:0 0 8px;font-size:24px}
+.center p{color:var(--mut);line-height:1.55;margin:0 0 18px}
+.field{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.field input{padding:13px 16px;border-radius:12px;border:2px solid var(--line);font-size:15px;font-family:inherit;min-width:240px}
+.field input:focus{outline:none;border-color:var(--a)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:6px 0 24px;text-align:left}
+.step{background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;color:var(--mut)}
+.step b{display:block;color:var(--ink);margin-bottom:2px}
+.big{font-size:54px;margin-bottom:6px}
+.demo{background:#fef3c7;color:#92400e;text-align:center;font-size:12.5px;padding:7px}
+.hidden{display:none!important}
+.spin{width:28px;height:28px;border:3px solid #cbd5e1;border-top-color:var(--a);border-radius:50%;animation:s 1s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (max-width:900px){
+ .hero{padding:22px 16px 66px}h1{font-size:25px}
+ .wrap{padding:0 16px}
+ .grid{grid-template-columns:1fr}.post{position:static}
+ .opts{grid-template-columns:1fr 1fr}.opt.bad{grid-column:span 2}
+ .rel{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
+ .qh em{display:none}.note{order:3;flex-basis:100%}
+}
+</style>
+</head>
+<body>
+<div id="demo" class="demo hidden">Demo mode: answers are kept only in this browser. Add the Google Apps Script URL in index.html to collect real responses.</div>
+<header class="hero">
+  <div class="brand"><div class="logo">🌀</div>CrisisMMD++ · Human Verification Study</div>
+  <h1>Welcome to the CrisisMMD++ Survey</h1>
+  <div class="auth">Yasir Nawaz, Kaleb Tangen &amp; Dr. Ademola Adesokan · University of Central Arkansas</div>
+  <div class="intro">Help us check labels for real disaster tweets. For each tweet and photo, pick the label that fits better. Option A and Option B come from different sources and are shown in random order. There are no wrong answers, so go with your best judgment.</div>
+  <div class="pills"><div class="pill">⏱ About 1 minute per item</div><div class="pill">💾 Saved after every item</div><div class="pill">🚪 Stop anytime</div></div>
+</header>
+
+<main class="wrap">
+  <div class="prog">
+    <b id="progTxt">Survey progress: – of 900 items labeled</b>
+    <div class="bar"><i id="progBar"></i></div>
+    <span class="pct" id="progPct">0%</span>
+    <span class="who" id="who"></span>
+  </div>
+
+  <!-- start screen -->
+  <section id="start" class="card center">
+    <h2>Before you start</h2>
+    <p>Each item shows one tweet with its photo and four quick questions. Choose Option A, Option B, or <b>Both are bad</b> when neither label is right. You can see every possible label under each question.</p>
+    <div class="steps">
+      <div class="step"><b>1. Look</b>Read the tweet and look at the photo.</div>
+      <div class="step"><b>2. Pick</b>Answer all four questions.</div>
+      <div class="step"><b>3. Save</b>Click Next for a new item, or End when you are done.</div>
+    </div>
+    <div class="field">
+      <input id="name" maxlength="40" placeholder="Your first name or a nickname" autocomplete="nickname">
+      <button class="btn nxt" id="go">Start labeling →</button>
+    </div>
+    <p id="nameMsg" class="note warn hidden" style="margin-top:12px">Please enter a name so we can count your answers.</p>
+  </section>
+
+  <!-- loading -->
+  <section id="loading" class="card center hidden"><div class="spin" style="margin:0 auto 12px"></div><p>Loading the next item…</p></section>
+
+  <!-- item screen -->
+  <section id="item" class="grid hidden">
+    <div class="card post">
+      <div class="hd"><div class="av">T</div><div><b>Tweet</b><br><small id="evDate">Disaster tweet</small></div></div>
+      <div class="tw" id="tweet"></div>
+      <div class="imgbox" id="imgbox">Loading image…</div>
+      <span class="ev" id="ev"></span><span class="iid" id="iid"></span>
+    </div>
+    <div id="qs"></div>
+  </section>
+
+  <!-- end screen -->
+  <section id="end" class="card center hidden">
+    <div class="big">🎉</div>
+    <h2>Thank you!</h2>
+    <p id="endMsg"></p>
+    <button class="btn nxt" id="resume">Label more items</button>
+  </section>
+</main>
+
+<script>
+/* ===== Settings ===== */
+// Paste the Google Apps Script web app URL here (see SETUP.txt). Leave empty for demo mode.
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMrdDQ5QVS8hZHtpAjg9771ctIRhTW9oY1XDEpwTB1nrP7T2Y8TCTqoaLvXSuU2gcC/exec";
+const TOTAL = 900;
+
+const CAT = {
+  affected_individuals:"Affected individuals",
+  infrastructure_and_utility_damage:"Infrastructure & utility damage",
+  injured_or_dead_people:"Injured or dead people",
+  missing_or_found_people:"Missing or found people",
+  rescue_volunteering_or_donation_effort:"Rescue, volunteering or donation effort",
+  vehicle_damage:"Vehicle damage",
+  other_relevant_information:"Other relevant information",
+  not_humanitarian:"Not humanitarian"
+};
+const SEV = {
+  severe_damage:"Severe damage", mild_damage:"Mild damage",
+  little_or_no_damage:"Little or no damage", dont_know_or_cant_judge:"Can't judge"
+};
+const EVENTS = {
+  hurricane_harvey:["🌀","Hurricane Harvey","2017"], hurricane_irma:["🌀","Hurricane Irma","2017"],
+  hurricane_maria:["🌀","Hurricane Maria","2017"], california_wildfires:["🔥","California Wildfires","2017"],
+  mexico_earthquake:["🌎","Mexico Earthquake","2017"], iraq_iran_earthquake:["🌎","Iraq–Iran Earthquake","2017"],
+  srilanka_floods:["🌊","Sri Lanka Floods","2017"]
+};
+const REL = [
+  ["Entails","the image shows what the text says"],
+  ["Independent","related to the event, but the image and text talk about different things"],
+  ["Contradicts","the image goes against what the text says"],
+  ["Uncertain","hard to tell"]
+];
+const SAME_NOTE = "If Option A and B are the same, select either one if it is right. Otherwise select Both are bad.";
+
+/* ===== State ===== */
+let ITEMS = {}, chunkCache = {}, cur = null, ans = {}, t0 = 0, rater = "", mine = 0, endArmed = false;
+const $ = id => document.getElementById(id);
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+};
+const show = id => ["start","loading","item","end"].forEach(s => $(s).classList.toggle("hidden", s!==id));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ===== Backend (Apps Script) or demo fallback ===== */
+async function api(params){
+  if (!SCRIPT_URL) return demoApi(params);
+  const qs = new URLSearchParams(params).toString();
+  const r = await fetch(SCRIPT_URL + "?" + qs);
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error || "server error");
+  return j;
+}
+function demoApi(p){
+  let db; try{ db = JSON.parse(store.get("cmmd_demo") || "[]"); }catch(e){ db = []; }
+  if (p.action === "submit") { db.push(JSON.parse(p.data).item_id + "|" + p.rater); store.set("cmmd_demo", JSON.stringify(db)); }
+  const done = new Set(db.map(x => x.split("|")[0]));
+  const minel = new Set(db.filter(x => x.endsWith("|" + p.rater)).map(x => x.split("|")[0]));
+  let next = null;
+  if (p.want_next === "1") {
+    const pool = Object.keys(ITEMS).filter(id => !minel.has(id));
+    const fresh = pool.filter(id => !done.has(id));
+    const from = fresh.length ? fresh : pool;
+    next = from.length ? from[Math.floor(Math.random() * from.length)] : null;
+  }
+  return Promise.resolve({ ok:true, next, done:done.size, total:TOTAL, mine:minel.size });
+}
+
+function setProgress(j){
+  const done = j.done || 0;
+  $("progTxt").textContent = `Survey progress: ${done} of ${TOTAL} items labeled`;
+  const pct = Math.min(100, done / TOTAL * 100);
+  $("progPct").textContent = (pct < 10 && pct > 0 ? pct.toFixed(1) : Math.round(pct)) + "%";
+  $("progBar").style.width = pct + "%";
+  mine = j.mine || 0;
+  $("who").textContent = rater ? `Annotator: ${rater} · you labeled ${mine}` : "";
+}
+
+async function getImage(it){
+  if (!chunkCache[it.chunk]) {
+    const name = "img/chunk_" + String(it.chunk).padStart(2,"0") + ".json";
+    chunkCache[it.chunk] = fetch(name).then(r => r.json());
+  }
+  const data = await chunkCache[it.chunk];
+  return data[it.id];
+}
+
+/* ===== Rendering ===== */
+function chips(all, a, b){
+  return Object.entries(all).map(([k,v]) => {
+    const cls = k===a && k===b ? "cab" : k===a ? "ca" : k===b ? "cb" : "";
+    return `<span class="chip ${cls}">${esc(v)}</span>`;
+  }).join("");
+}
+function labelQ(n, key, title, hint, pair, all, lbAll){
+  const [a,b] = pair;
+  return `<div class="card q" id="q_${key}">
+    <div class="qh"><div class="num">${n}</div><h3>${title}</h3><em>${hint}</em></div>
+    ${a===b ? `<div class="same">⚠️ ${SAME_NOTE}</div>` : ""}
+    <div class="opts">
+      <button class="opt A" data-q="${key}" data-v="A"><span class="t">OPTION A</span>${esc(all[a]||a)}</button>
+      <button class="opt B" data-q="${key}" data-v="B"><span class="t">OPTION B</span>${esc(all[b]||b)}</button>
+      <button class="opt bad" data-q="${key}" data-v="BOTH_BAD">✕ Both are bad</button>
+    </div>
+    <div class="chips"><span class="lb">${lbAll}</span>${chips(all,a,b)}</div>
+  </div>`;
+}
+function render(it){
+  const e = EVENTS[it.ev] || ["📍", it.ev, ""];
+  $("tweet").textContent = it.tweet;
+  $("ev").textContent = e[0] + " " + e[1];
+  $("evDate").textContent = "Posted during " + e[1] + " (" + e[2] + ")";
+  $("iid").textContent = "Item " + it.id;
+  $("imgbox").innerHTML = "Loading image…";
+  getImage(it).then(src => {
+    if (cur !== it) return;
+    $("imgbox").innerHTML = src ? `<img alt="Photo attached to the tweet" src="${src}">` : "Image not available";
+  }).catch(() => { $("imgbox").textContent = "Image could not be loaded"; });
+
+  $("qs").innerHTML =
+    labelQ(1,"img",'Which <u>image</u> category label is better?',"Look at the photo",it.img,CAT,"All categories:") +
+    labelQ(2,"txt",'Which <u>text</u> category label is better?',"Read the tweet",it.txt,CAT,"All categories:") +
+    labelQ(3,"sev",'Which <u>damage severity</u> label is better?',"Look at the photo",it.sev,SEV,"All levels:") +
+    `<div class="card q" id="q_rel"><div class="qh"><div class="num">4</div><h3>Do the tweet text and image match?</h3><em>Compare both</em></div>
+      <div class="rel">${REL.map(([k,v]) => `<button class="r" data-q="rel" data-v="${k}"><b>${k}</b><span>(${v})</span></button>`).join("")}</div></div>
+    <div class="foot">
+      <button class="btn end" id="endBtn">Save &amp; end survey</button>
+      <span class="note" id="footNote">Answer all 4 questions to continue</span>
+      <button class="btn nxt" id="nextBtn" disabled>Save &amp; next →</button>
+    </div>`;
+  $("qs").querySelectorAll("[data-q]").forEach(btn => btn.onclick = () => pick(btn));
+  $("endBtn").onclick = endSurvey;
+  $("nextBtn").onclick = () => save("next");
+}
+function pick(btn){
+  const q = btn.dataset.q;
+  ans[q] = btn.dataset.v;
+  $("q_" + q).querySelectorAll("[data-q]").forEach(b => b.classList.toggle("sel", b === btn));
+  $("q_" + q).classList.add("done");
+  const ok = complete();
+  $("nextBtn").disabled = !ok;
+  endArmed = false;
+  $("footNote").className = "note";
+  $("footNote").textContent = ok ? "Your answers are saved when you click a button" : "Answer all 4 questions to continue";
+}
+const complete = () => ["img","txt","sev","rel"].every(k => ans[k]);
+
+/* ===== Flow ===== */
+async function loadNext(){
+  show("loading");
+  try {
+    const j = await api({ action:"next", rater, want_next:"1" });
+    setProgress(j);
+    if (!j.next || !ITEMS[j.next]) { finish(true); return; }
+    cur = ITEMS[j.next]; ans = {}; endArmed = false; t0 = Date.now();
+    render(cur); show("item"); window.scrollTo({ top:0, behavior:"smooth" });
+  } catch (e) { netError(e); }
+}
+function payload(action){
+  const lab = (q, all) => ans[q]==="A" ? all[cur[q][0]] : ans[q]==="B" ? all[cur[q][1]] : "";
+  return JSON.stringify({
+    item_id:cur.id, image_choice:ans.img, image_label:lab("img",CAT),
+    text_choice:ans.txt, text_label:lab("txt",CAT), severity_choice:ans.sev, severity_label:lab("sev",SEV),
+    relationship:ans.rel, seconds_spent:Math.round((Date.now()-t0)/1000), action
+  });
+}
+async function save(action){
+  if (!complete()) return;
+  $("nextBtn").disabled = true; $("endBtn").disabled = true;
+  $("footNote").textContent = "Saving…";
+  try {
+    const j = await api({ action:"submit", rater, data:payload(action), want_next: action==="next" ? "1" : "0" });
+    setProgress(j);
+    if (action === "end") { finish(false); return; }
+    if (!j.next || !ITEMS[j.next]) { finish(true); return; }
+    cur = ITEMS[j.next]; ans = {}; t0 = Date.now();
+    render(cur); window.scrollTo({ top:0, behavior:"smooth" });
+  } catch (e) { netError(e); }
+}
+function endSurvey(){
+  if (complete()) { save("end"); return; }
+  if (Object.keys(ans).length && !endArmed) {
+    endArmed = true;
+    $("footNote").className = "note warn";
+    $("footNote").textContent = "This item is not finished. Click End again to quit without saving it.";
+    return;
+  }
+  finish(false);
+}
+function finish(allDone){
+  $("endMsg").innerHTML = allDone
+    ? `You have labeled every item available to you (<b>${mine}</b> in total). We really appreciate your help!`
+    : `Your answers are saved. You labeled <b>${mine}</b> item${mine===1?"":"s"}. You can come back anytime with the same name to continue.`;
+  $("resume").classList.toggle("hidden", allDone);
+  show("end");
+}
+function netError(e){
+  console.error(e);
+  show("item");
+  const n = $("footNote");
+  if (n) { n.className = "note warn"; n.textContent = "Could not reach the server. Check your connection and try again."; }
+  if ($("nextBtn")) $("nextBtn").disabled = !complete();
+  if ($("endBtn")) $("endBtn").disabled = false;
+  if (!cur) { show("start"); $("nameMsg").textContent = "Could not reach the server. Please try again in a moment."; $("nameMsg").classList.remove("hidden"); }
+}
+
+/* ===== Start ===== */
+function begin(){
+  const v = $("name").value.trim();
+  if (!v) { $("nameMsg").classList.remove("hidden"); return; }
+  rater = v; store.set("cmmd_rater", v);
+  loadNext();
+}
+$("go").onclick = begin;
+$("name").addEventListener("keydown", e => { if (e.key === "Enter") begin(); });
+$("resume").onclick = loadNext;
+if (!SCRIPT_URL) $("demo").classList.remove("hidden");
+
+fetch("items.json").then(r => r.json()).then(list => {
+  list.forEach(it => ITEMS[it.id] = it);
+  const saved = store.get("cmmd_rater");
+  if (saved) $("name").value = saved;
+  api({ action:"stats", rater: saved || "guest", want_next:"0" }).then(setProgress).catch(()=>{});
+}).catch(() => { $("nameMsg").textContent = "Could not load survey items."; $("nameMsg").classList.remove("hidden"); });
+</script>
+</body>
+</html>
