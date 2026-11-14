@@ -362,9 +362,12 @@ function netError(e){
 
 /* ===== Start ===== */
 function begin(){
-  const v = $("name").value.trim();
-  if (!v) { $("nameMsg").classList.remove("hidden"); return; }
-  rater = v; store.set("cmmd_rater", v);
+  // letters, numbers and _ only; a random 4-digit code keeps two "Yasir"s apart
+  const v = $("name").value.trim().replace(/[^A-Za-z0-9_]/g, "").slice(0, 30);
+  if (!v) { $("nameMsg").textContent = "Please enter a name using letters or numbers."; $("nameMsg").classList.remove("hidden"); return; }
+  const saved = store.get("cmmd_rater");
+  rater = (saved && saved.split("-")[0] === v) ? saved : v + "-" + Math.floor(1000 + Math.random() * 9000);
+  store.set("cmmd_rater", rater);
   loadNext();
 }
 $("go").onclick = begin;
@@ -375,7 +378,7 @@ if (!SCRIPT_URL) $("demo").classList.remove("hidden");
 fetch("items.json").then(r => r.json()).then(list => {
   list.forEach(it => ITEMS[it.id] = it);
   const saved = store.get("cmmd_rater");
-  if (saved) $("name").value = saved;
+  if (saved) $("name").value = saved.split("-")[0];
   api({ action:"stats", rater: saved || "guest", want_next:"0" }).then(setProgress).catch(()=>{});
 }).catch(() => { $("nameMsg").textContent = "Could not load survey items."; $("nameMsg").classList.remove("hidden"); });
 </script>
